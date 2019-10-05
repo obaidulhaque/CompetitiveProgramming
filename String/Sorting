@@ -1,0 +1,39 @@
+#include<iostream>
+#include<vector>
+#include<unordered_map>
+#include<string>
+#include<algorithm>
+
+using namespace std;
+
+void stringSort(string strArray[], int size)
+{
+	//....Selection Sort(Time Complexity O(n^2)....
+
+	for (int i = 0; i < size - 1; i++)
+	{
+		int min = i;
+		for (int j = i + 1; j < size; j++)
+		{
+			//if (strArray[j].compare(strArray[min]) < 0) min = j;
+			if (strArray[j] < strArray[min]) min = j;
+		}
+
+		string temp = strArray[i];
+		strArray[i] = strArray[min];
+		strArray[min] = temp;
+	}
+}
+
+int main()
+{
+	//string strArray[] = { "bat", "ant", "dog", "cat", "eel", "ibx", "fox", "gnu", "cow", "pig" };
+
+	string strArray[] = { "book12", "Bac", "book1", "abc", "book" };
+
+	int size = sizeof(strArray) / sizeof(strArray[0]);
+
+	stringSort(strArray, size);
+  
+	return 0;
+}
