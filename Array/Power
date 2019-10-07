@@ -1,0 +1,51 @@
+#include<iostream>
+
+
+using namespace std;
+
+/*
+		Iterative Approach
+*/
+
+int power_iterative(int x, unsigned int y)
+{
+	int res = 1;
+	while (y > 0)
+	{
+		// y is odd
+		if (y & 1) res = res * x;
+
+		y = y >> 1;// (as like y / 2)
+		x = x*x;
+	}
+
+	return res;
+}
+
+/*
+	Recursive solution
+	Time Complexity: O(logn)
+	Space Complexity: O(1)
+	Algorithmic Paradigm: Divide and conquer.
+*/
+int power(int x, unsigned int y)
+{
+	//divide the problem into subproblem of size y/2
+
+	int temp;
+	if (y == 0) return 1;
+	
+	temp = power(x, y / 2);
+	if (y % 2 == 0) return temp*temp;
+	else
+	{
+		if (y > 0) return x*temp*temp;
+		else return (temp*temp) / x; //negative value
+	}
+}
+
+int main()
+{
+	int ans = power_iterative(2, 3);
+	return 0;
+}
