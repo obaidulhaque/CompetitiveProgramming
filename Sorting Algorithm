@@ -1,0 +1,74 @@
+1.void Bubblesort(int Arr[], int n)
+{
+
+	for (int i = 0; i < n; i++)
+	{
+		bool swap = true;
+		for (int j = 0; j < n - i - 1; j++)
+		{
+			if (Arr[j] > Arr[j + 1])
+			{
+				int temp = Arr[j];
+				Arr[j] = Arr[j  + 1];
+				Arr[j + 1] = temp;
+				swap = false;
+			}
+		}
+
+		if (swap)
+			break;
+	}
+}
+Time Complexity:
+ -> Best Case Sorted array as input. Or almost all elements are in proper place. [ O(N) ]. O(1) swaps.
+ -> Worst Case: Reversely sorted / Very few elements are in proper place. [ O(N2) ] . O(N2) swaps.
+ -> Average Case: [ O(N2) ] . O(N2) swaps.
+Space Complexity: A temporary variable is used in swapping [ auxiliary, O(1) ]. Hence it is In-Place sort.
+
+2. void SelectionSort(int Arr[], int n)
+{
+	for (int i = 0; i < n - 1; i++)
+	{
+		int min_index = i;
+		for (int j = i + 1; j < n; j++)
+		{
+			if (Arr[j] < Arr[min_index])
+				min_index = j;
+		}
+
+		if (min_index != i)
+		{
+			int temp = Arr[min_index];
+			Arr[min_index] = Arr[i];
+			Arr[i] = temp;
+		}
+
+	}
+}  
+Time Complexity:
+ -> Best Case [ O(N2) ]. Also O(N) swaps.
+ -> Worst Case: Reversely sorted, and when inner loop makes maximum comparison. [ O(N2) ] . Also O(N) swaps.
+ -> Average Case: [ O(N2) ] . Also O(N) swaps.
+Space Complexity: [ auxiliary, O(1) ]. In-Place sort
+
+3. Insertion sort
+ void insertionSort(int arr[], int n)  
+{  
+    int i, key, j;  
+    for (i = 1; i < n; i++) 
+    {  
+        key = arr[i];  
+        j = i - 1;  
+  
+        /* Move elements of arr[0..i-1], that are  
+        greater than key, to one position ahead  
+        of their current position */
+        while (j >= 0 && arr[j] > key) 
+        {  
+            arr[j + 1] = arr[j];  
+            j = j - 1;  
+        }  
+        arr[j + 1] = key;  
+    }  
+}
+Worst Case: Reversely sorted, and when inner loop makes maximum comparison. [ O(N2) ] . Also O(N) swaps.
