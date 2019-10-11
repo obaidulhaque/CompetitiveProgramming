@@ -1,0 +1,176 @@
+#include<iostream>
+#include<vector>
+#include<list>
+using namespace std;
+
+struct Node {
+	int key;
+	Node *left, *right;
+
+	Node(int key)
+	{
+		this->key = key;
+		this->left = this->right = nullptr;
+	}
+};
+
+/*
+   Size of a tree is the number of elements present in the tree.
+   Time Complexity: Time Complexity: O(n).........T(n) = T(k) + T(n – k – 1) + c 
+                    Where k is the number of nodes on one side of root and n-k-1 on the other side.
+   Space Complexity: If we don’t consider size of stack for function calls then O(1) otherwise O(n).
+
+   Algorithm Approach: DFS (Inorder)
+                        -> Inorder (left, root, right)
+						-> Preorder (root, left, right)
+						-> Postorder (left, right, root)
+*/
+int getSizeRecursiveWay(Node *node)
+{
+	if (node == NULL) return 0;
+
+	int size = getSizeRecursiveWay(node->left) + 1 + getSizeRecursiveWay(node->right);
+
+	return size;
+}
+/*
+	level wise traversing..........using STL lib
+	Time complexity: O(n)
+	Space Complexity: using auxilary space so o(n)
+
+	Algorithm Approach: BFS
+*/
+int getSizeIterativeWay(Node *node)
+{
+	if (node == NULL) return 0;
+	/*
+		Queue is implemented using an array with maximum size of 500. 
+		We can implement queue as linked list also
+
+		So, we cn use queue STL lib.. its main implement using array
+	*/
+	list<Node *> q;
+	q.push_back(node);
+	int size = 0;
+
+	while (!q.empty())
+	{
+		Node *top = q.front();
+		q.pop_front();
+
+		size = size + 1;
+		
+		if (top->left) q.push_back(top->left);
+
+		if (top->right) q.push_back(top->right);
+	}
+	return size;
+}
+
+/*
+	Not using STL lib......
+*/
+
+class QNode {
+	public:
+		Node *key;
+		QNode *next;
+
+		QNode(Node *node)
+		{
+			this->key = node;
+			this->next = nullptr;
+		}
+};
+
+class Queue
+{
+	QNode *rear, *front;
+
+	public:
+
+		Queue()
+		{
+			this->front = this->rear = nullptr;
+		}
+
+		void push(Queue *q, Node *root)
+		{
+			QNode *qnode = new QNode(root);
+
+			if (q->rear == NULL)
+			{
+				q->front = q->rear = qnode;
+				return;
+			}
+
+			q->rear->next = qnode;
+			q->rear = qnode;
+		}
+
+		bool empty(Queue *q)
+		{
+			return (q->front == NULL && q->rear == NULL);
+		}
+
+		void pop_Front(Queue *q)
+		{
+			if (q->front == NULL) return;
+
+			QNode *temp = q->front;
+			q->front = q->front->next;
+
+			if (q->front == NULL) q->rear = NULL;
+
+			free(temp);
+		}
+
+		Node* Front(Queue *q)
+		{
+			if ((q->front == NULL) && (q->rear == NULL)) return NULL;
+			QNode *temp = q->front;
+			Node *node = temp->key;
+			return node;
+		}
+};
+
+
+int getSizeIterativeWayWithoutSTL(Node *node)
+{
+	if (node == NULL) return 0;
+
+	Queue *q = new Queue();
+	q->push(q, node);
+
+	int size = 0;
+	while (!q->empty(q))
+	{
+		Node *top = q->Front(q);
+		q->pop_Front(q);
+
+		size = size + 1;
+		if (top->left) q->push(q, top->left);
+
+		if (top->right) q->push(q, top->right);
+	}
+
+	return size;
+}
+
+
+int main()
+{
+	Node *root = nullptr;
+	root = new Node(15);
+	root->left = new Node(10);
+	root->right = new Node(20);
+	root->left->left = new Node(8);
+	root->left->right = new Node(12);
+	root->right->left = new Node(16);
+	root->right->right = new Node(25);
+	
+
+	int ans = getSizeIterativeWayWithoutSTL(root);
+	//int ans = getSizeIterativeWay(root);
+	return 0;
+}
