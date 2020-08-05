@@ -1,0 +1,58 @@
+class MyClass {
+  
+  boolean search_bf(int arr[], int val)
+  {
+    for(int i = 0; i < arr.length; i++)
+    {
+      if(arr[i] == val) return true;
+    }
+    
+    return false;
+  }
+  
+  boolean search_tp(int arr[], int val)
+  {
+    int start = 0;
+    int end  = arr.length - 1;
+    
+    while(start <= end)
+    {
+      if (arr[start] == val || arr[end] == val) return true;
+      start++;
+      end--;
+    }
+    
+    return false;
+    
+  }
+  
+  boolean search_lc(int arr[], int val)
+  {
+    int tmp = arr[arr.length - 1];
+    
+    arr[arr.length - 1] = val;
+    
+    int i = -1;
+    while(arr[++i] != val);
+    
+    arr[arr.length - 1] = tmp;
+    
+    return (arr[i] == val);
+  }
+  
+  public static void main(String[] args) {
+    
+    int arr[] = {3, 1, 5, 9, 6, 2};
+    /*
+      Unsorted array
+      1. brute force
+      2. two pointer technique
+      3. less comparison 
+    */
+   
+    MyClass obj = new MyClass();
+    //System.out.println(obj.search_bf(arr, 4)); // O(n)
+    //System.out.println(obj.search_tp(arr, 4)); // O(n/2) ~ O(n) when value does not exist or value in the middle of postion
+    System.out.println(obj.search_lc(arr, 4));// million of number in the array . it will run faster than the previous two soltuions
+  }
+}
